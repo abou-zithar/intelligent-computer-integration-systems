@@ -10,7 +10,7 @@ class Software_scresen extends StatelessWidget {
   static const routName = '/software-info';
   @override
   Widget build(BuildContext context) {
-    final softwaredata = Provider.of<software>(context);
+    final softwaredata = Provider.of<software>(context, listen: false);
     final soft = softwaredata.items;
 
     return Scaffold(
@@ -70,8 +70,9 @@ class softGrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final softwaredata = Provider.of<software>(context);
+    final softwaredata = Provider.of<software>(context, listen: false);
 
+    softwaredata.catchApplications();
     return GridView.builder(
       primary: false,
       padding: const EdgeInsets.all(10.0),

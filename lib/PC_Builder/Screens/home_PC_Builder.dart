@@ -1,7 +1,5 @@
-import 'dart:async';
-
 import 'package:best_flutter_ui_templates/PC_Builder/providers/Hardware_provider.dart';
-import 'package:http/http.dart';
+
 import 'package:provider/provider.dart';
 
 import '../items/hardware_homepage_list_view.dart';
@@ -9,10 +7,10 @@ import 'Hardware_info_screen.dart';
 import 'popular_Models_list_view.dart';
 
 import '../providers/Hardware_provider.dart';
+import '../providers/software_provider.dart';
 import '../../main.dart';
 import 'package:flutter/material.dart';
 import '../PC_Builder_app_theme.dart';
-import '../requests/requests.dart';
 import '../../custom_drawer/home_drawer.dart';
 // import 'package:provider/provider.dart';
 // import 'package:best_flutter_ui_templates/PC_Builder/providers/Hardware_provider.dart';
@@ -25,22 +23,23 @@ class PCBUilderHomeScreen extends StatefulWidget {
 class _PCBUilderHomeScreenState extends State<PCBUilderHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final hardwaredata = Provider.of<hardware>(context);
-    void getdata() {
-      
-      hardwaredata.catchMotherBoard();
+    final hardwaredata = Provider.of<hardware>(context, listen: false);
+    final softwaredata = Provider.of<software>(context, listen: false);
+
+    void getdataFrombackend() {
       hardwaredata.catchcpu();
       hardwaredata.catchGpu();
       hardwaredata.catchMemory();
       hardwaredata.catchstorage();
+      hardwaredata.catchMotherBoard();
       hardwaredata.catchcooler();
       hardwaredata.catchpowerSupply();
+      softwaredata.catchApplications();
+      hardwaredata.catchcase();
     }
 
-    getdata();
+    getdataFrombackend();
 
-    final hardwares = hardwaredata.items;
-    print(hardwares);
     return Container(
       color: PCBuilderAppTheme.nearlyWhite,
       child: Scaffold(

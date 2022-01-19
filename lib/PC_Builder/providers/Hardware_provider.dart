@@ -186,8 +186,8 @@ class hardware with ChangeNotifier {
             element.get('Modules') as String,
             element.get('Name') as String,
             rating,
-            [element.get('Color') as String, 'Color'],
             [element.get('Speed') as String, 'Speed'],
+            [element.get('Color') as String, 'Color'],
             [element.get('CAS_latency') as String, 'CAS_latency'],
             element.get('First_word_latency'),
             'assets/new_images/ram.png');
@@ -247,9 +247,9 @@ class hardware with ChangeNotifier {
             element.get('Brand') as String,
             element.get('Model') as String,
             rating,
-            [element.get('RGB Sync') as String, 'Color'],
-            [element.get('AMD AM4') as String, 'AMD AM4'],
             [element.get('Brand') as String, 'Brand'],
+            [element.get('AMD AM4') as String, 'AMD AM4'],
+            [element.get('RGB Sync') as String, 'RGB Sync'],
             element.get('LGA 115x, 1200'),
             'assets/new_images/cooler.png');
       } else {
@@ -269,8 +269,12 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        rating = rng.nextDouble() * 5;
-        // print(element.data());
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         addhardware(
             element.id,
             element.get('Prices') as String,
@@ -283,6 +287,36 @@ class hardware with ChangeNotifier {
             [element.get('Form_Factor') as String, 'Socket'],
             element.get('Memory_Max'),
             'assets/new_images/motherboard.png');
+      } else {
+        print('not exist');
+      }
+    });
+  }
+
+  void catchcase() async {
+    // print('here');
+    CollectionReference hardwareref =
+        FirebaseFirestore.instance.collection('Case');
+    var quearySnapShot = await hardwareref.get();
+
+    List<QueryDocumentSnapshot> listdocs = quearySnapShot.docs;
+// the code here donot work
+    listdocs.forEach((element) {
+      // print(element.get('Name'));
+      if (element.exists) {
+        rating = rng.nextDouble() * 5;
+        // print(element.data());
+        addhardware(
+            element.id,
+            element.get('Price') as String,
+            element.get('Type') as String,
+            element.get('Name') as String,
+            rating,
+            [element.get('Type') as String, 'Type'],
+            [element.get('Color') as String, 'Color'],
+            [element.get('Side Panel Window') as String, 'SPW'],
+            element.get('Power Supply'),
+            'assets/new_images/computer-tower.png');
       } else {
         print('not exist');
       }

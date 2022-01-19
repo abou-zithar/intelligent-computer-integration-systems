@@ -2,8 +2,11 @@ import '../providers/Models.dart' show SWHW;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/Models.dart';
+import '../Screens/Hardware_info_screen.dart';
+import '../providers/Hardware.dart';
 
 class ModelItem extends StatelessWidget {
+  final String counter;
   final String id;
   final String productid;
   final String price;
@@ -12,7 +15,8 @@ class ModelItem extends StatelessWidget {
   final double rating;
 
   ModelItem(
-      {required this.id,
+      {required this.counter,
+      required this.id,
       required this.productid,
       required this.price,
       required this.title,
@@ -56,19 +60,25 @@ class ModelItem extends StatelessWidget {
         },
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          Provider.of<Models>(context).removeItem(productid);
+          //aaaaaaaaaaaaaaaaaaaaaaah
+          Provider.of<Models>(context, listen: false).removeItem(id);
         },
         child: Card(
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
           child: Padding(
             padding: EdgeInsets.all(8),
             child: ListTile(
+              onTap: () {
+                Navigator.of(context)
+                    .pushNamed(HardwareInfoScreen.routName, arguments: id);
+              },
               leading: CircleAvatar(
-                child: FittedBox(child: Text('$id')),
+                child: FittedBox(child: Text('$counter')),
               ),
               title: Text('$title'),
-              trailing:
-                  type == SWHW.hardware ? Text('💲$price') : Text('⭐${rating}'),
+              trailing: type == SWHW.hardware
+                  ? Text('💲$price')
+                  : Text('⭐${rating.toString().substring(0, 4)}'),
             ),
           ),
         ),

@@ -260,7 +260,11 @@ class HardwareView extends StatelessWidget {
                                                           hardwareitem!
                                                               .Imageurl,
                                                           hardwareitem!.color,
-                                                          hardwareitem!.swhw);
+                                                          hardwareitem!.swhw,
+                                                          null,
+                                                          hardwareitem!.prop1,
+                                                          hardwareitem!.prop2,
+                                                          hardwareitem!.prop3);
                                                       Scaffold.of(context)
                                                           .hideCurrentSnackBar();
 
