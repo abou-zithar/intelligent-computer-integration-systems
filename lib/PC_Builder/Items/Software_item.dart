@@ -53,7 +53,10 @@ class software_item extends StatelessWidget {
                     softwareitem.imagePath,
                     softwareitem.color,
                     softwareitem.swhw,
-                    softwareitem.discription,null,null,null);
+                    softwareitem.discription,
+                    null,
+                    null,
+                    null);
                 Scaffold.of(context).hideCurrentSnackBar();
 
                 Scaffold.of(context).showSnackBar(SnackBar(

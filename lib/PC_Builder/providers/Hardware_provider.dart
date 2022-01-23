@@ -8,78 +8,7 @@ import 'Hardware.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class hardware with ChangeNotifier {
-  List<Hardware> _item = [
-    // Hardware(
-    //     id: '1H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good CPU',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'inetl',
-    //     Type: 'CPU',
-    //     price: '15023',
-    //     Imageurl: 'assets/new_images/chip.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '2H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good GPU',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'amd',
-    //     Type: 'GPU',
-    //     price: 13342,
-    //     Imageurl: 'assets/new_images/vga-card.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '3H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good storage',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'segate ',
-    //     Type: 'storage',
-    //     price: 12345,
-    //     Imageurl: 'assets/new_images/harddisk.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '4H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good RAM',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'Lenovo ',
-    //     Type: 'RAM',
-    //     price: 3422,
-    //     Imageurl: 'assets/new_images/ram.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '5H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good Cooler',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'IBM',
-    //     Type: 'Cooler',
-    //     price: 7562,
-    //     Imageurl: 'assets/new_images/cooler.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '6H',
-    //     Rating: 4.3,
-    //     Description: 'it\'s a good MotherB',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'LG ',
-    //     Type: 'MotherBoard',
-    //     price: 14532,
-    //     Imageurl: 'assets/new_images/motherboard.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '7H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good case',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'HP',
-    //     Type: 'case',
-    //     price: 23423,
-    //     Imageurl: 'assets/new_images/computer-tower.png',
-    //     icon: Icons.computer),
-  ];
+  List<Hardware> _item = [];
 
   var _showFavoritesOnly = false;
 
@@ -122,9 +51,9 @@ class hardware with ChangeNotifier {
             element.get('Released') as String,
             element.get('Name') as String,
             rating,
-            [element.get('Socket') as String, 'Socket'],
-            [element.get('TDP') as String, 'TDP'],
             [element.get('Cores') as String, 'Cores'],
+            [element.get('TDP') as String, 'TDP'],
+            [element.get('Socket') as String, 'Socket'],
             element.get('Clock'),
             'assets/new_images/chip.png');
       } else {
@@ -176,7 +105,6 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        print('object');
         rating = rng.nextDouble() * 5;
         // print(rating);
         // print(element.data());
@@ -188,7 +116,7 @@ class hardware with ChangeNotifier {
             rating,
             [element.get('Speed') as String, 'Speed'],
             [element.get('Color') as String, 'Color'],
-            [element.get('CAS_latency') as String, 'CAS_latency'],
+            [element.get('CAS_latency') as String, 'C_L'],
             element.get('First_word_latency'),
             'assets/new_images/ram.png');
       } else {
@@ -304,7 +232,12 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        rating = rng.nextDouble() * 5;
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         // print(element.data());
         addhardware(
             element.id,

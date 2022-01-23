@@ -11,8 +11,6 @@ class HardwareScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsContanier = Provider.of<hardware>(context);
 
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -80,7 +78,7 @@ class HardwareGrid extends StatelessWidget {
         ,
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 1,
           childAspectRatio: 3 / 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
