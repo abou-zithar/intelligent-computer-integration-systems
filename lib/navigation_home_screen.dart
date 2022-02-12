@@ -9,8 +9,8 @@ import './custom_drawer/drawer_user_controller.dart';
 import './custom_drawer/home_drawer.dart';
 import 'package:best_flutter_ui_templates/feedback_screen.dart';
 import 'package:best_flutter_ui_templates/help_screen.dart';
-import 'invite_friend_screen.dart';
-import 'PC_Builder/Screens/home_PC_Builder.dart';
+
+
 import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
@@ -79,10 +79,6 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       } else if (drawerIndex == DrawerName.HardWare) {
         setState(() {
           screenView = HardwareScreen();
-        });
-      } else if (drawerIndex == DrawerName.Invite) {
-        setState(() {
-          screenView = InviteFriend();
         });
       } else if (drawerIndex == DrawerName.about_us) {
         setState(() {

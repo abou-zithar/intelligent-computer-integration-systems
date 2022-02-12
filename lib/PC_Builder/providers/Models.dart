@@ -1,27 +1,24 @@
-// import 'dart:ffi';
-import 'package:best_flutter_ui_templates/PC_Builder/providers/Hardware.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'createPC.dart';
 
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class ModelProvider with ChangeNotifier {
-  ModelProvider({
-    required this.id,
-    required this.title,
-    this.imagePath,
-    required this.price,
-    this.discription = '',
-    required this.rating,
-    this.color,
-    required this.type,
-    this.overhead,
-    this.prop1 = const ['value', 'NOTV'],
-    this.prop2 = const ['value', 'NOTV'],
-    this.prop3 = const ['value', 'NOTV'],
-    this.points=0
-  });
+  ModelProvider(
+      {required this.id,
+      required this.title,
+      this.imagePath,
+      required this.price,
+      this.discription = '',
+      required this.rating,
+      this.color,
+      required this.type,
+      this.overhead,
+      this.prop1 = const ['value', 'NOTV'],
+      this.prop2 = const ['value', 'NOTV'],
+      this.prop3 = const ['value', 'NOTV'],
+      this.points = 0});
 
   final String title;
   final String price;
@@ -35,7 +32,7 @@ class ModelProvider with ChangeNotifier {
   final List<String>? prop1;
   final List<String>? prop2;
   final List<String>? prop3;
-   int points;
+  int points;
 }
 
 class Models with ChangeNotifier {
@@ -100,9 +97,11 @@ class Models with ChangeNotifier {
   //-----------------------
 //the main algo of the program
 //------------------------------
-  void createPC(List<ModelProvider> pcItemsList) {
+  List<ModelProvider> createPC(List<ModelProvider> pcItemsList) {
     var functionsTocreatePC = new CreatePc();
+    // functionsTocreatePC.resetdatapc();
     List<ModelProvider>? hardware;
+    List<ModelProvider> finalCreatedPC;
     var applicationsFinalWeight = 0;
     var hardWare_Type;
 
@@ -122,11 +121,12 @@ class Models with ChangeNotifier {
     // print(applicationsFinalWeight);
     functionsTocreatePC.completeHardware_lists(applicationsFinalWeight);
 
-    // for (int i = 0; i < pcItemsList.length; i++) {
-    //   if (pcItemsList[i].type == SWHW.hardware) {
+    finalCreatedPC = functionsTocreatePC.getpcdata();
+    if (finalCreatedPC.length > 8) {
+      finalCreatedPC.clear();
+    }
 
-    //   }
-    // }
+    return finalCreatedPC;
   }
 }
 

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../providers/Models.dart';
 import '../Screens/Hardware_info_screen.dart';
 
-
 class ModelItem extends StatelessWidget {
   final String counter;
   final String id;
@@ -62,7 +61,7 @@ class ModelItem extends StatelessWidget {
         },
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          //aaaaaaaaaaaaaaaaaaaaaaah
+          // solved problem;
           Provider.of<Models>(context, listen: false).removeItem(id);
         },
         child: Card(

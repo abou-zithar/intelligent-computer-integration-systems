@@ -1,23 +1,32 @@
-library CreatePc;
-
 import 'Models.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'Models.dart';
+
 import 'dart:math';
 
+List<ModelProvider> datapc = [];
+
 class CreatePc {
+  
   var weight = 0;
 
   List<ModelProvider> cpuhardware_list = [];
+
   List<ModelProvider> gpuhardware_list = [];
+
   List<ModelProvider> casehardware_list = [];
+
   List<ModelProvider> mBhardware_list = [];
+
   List<ModelProvider> rAMhardware_list = [];
+
   List<ModelProvider> storagehardware_list = [];
+
   List<ModelProvider> coolerhardware_list = [];
+
   List<ModelProvider> powersupplayhardware_list = [];
-  List<String> points = [];
+
+  List<int> points = [];
 
   int findfilter(String? overhead) {
     if (overhead == 'High') {
@@ -34,19 +43,19 @@ class CreatePc {
   }
 
   findType(List<String>? prop) {
-    if (prop![1] == 'Color') {
+    if (prop![1] == 'Max') {
       return 'MB';
     } else if (prop[1] == 'Cores') {
       return 'CPU';
-    } else if (prop[1] == 'ER') {
+    } else if (prop[1] == 'Wattage') {
       return 'PowerSupply';
-    } else if (prop[1] == 'GPU_Chip') {
+    } else if (prop[1] == 'Chip') {
       return 'GPU';
     } else if (prop[1] == 'Brand') {
       return 'Cooler';
     } else if (prop[1] == 'Capacity') {
       return 'Storage';
-    } else if (prop[1] == 'Speed') {
+    } else if (prop[1] == 'CAS_l') {
       return 'RAM';
     } else if (prop[1] == 'Type') {
       return 'Case';
@@ -73,39 +82,35 @@ class CreatePc {
     }
   }
 
-  void completeHardware_lists(int applications_final_weight) {
+  void completeHardware_lists(int applicationsFinalWeight) {
     // send the prop names with the rest of arrguments to the funcation???
     checkTheHardware_list(cpuhardware_list, 'CPU_2', 'Cores', 'TDP', 'Socket',
-        'Price', 'Name', applications_final_weight);
+        'Price', 'Name', applicationsFinalWeight);
+
+    checkTheHardware_list(mBhardware_list, 'Motherboard', 'Memory_Max',
+        'Memory_Slots', 'Socket', 'Prices', 'Name', applicationsFinalWeight);
+
     checkTheHardware_list(gpuhardware_list, 'GPU', 'GPU_Chip', 'GPU_Clock',
-        'Memory', 'Price', 'Product_Name', applications_final_weight);
+        'Memory', 'Price', 'Product_Name', applicationsFinalWeight);
+
     checkTheHardware_list(casehardware_list, 'Case', 'Type', 'Color',
-        'Side Panel Window', 'Price', 'Name', applications_final_weight);
-    checkTheHardware_list(
-        mBhardware_list,
-        'Motherboard',
-        'Memory_Max',
-        'Memory_Slots',
-        'Memory_Slots',
-        'Prices',
-        'Name',
-        applications_final_weight);
+        'Side Panel Window', 'Price', 'Name', applicationsFinalWeight);
 
     checkTheHardware_list(
         rAMhardware_list,
         'Memory',
-        'Speed',
+        'CAS_latency',
         'First_word_latency',
         'Modules',
         'Prices',
         'Name',
-        applications_final_weight);
+        applicationsFinalWeight);
 
     checkTheHardware_list(storagehardware_list, 'Storage', 'Capacity',
-        'Form_Factor', 'Type', 'Price', 'Name', applications_final_weight);
+        'Form_Factor', 'Type', 'Price', 'Name', applicationsFinalWeight);
 
     checkTheHardware_list(coolerhardware_list, 'CPU Cooler', 'LGA 115x, 1200',
-        'AMD AM4', 'RGB Sync', 'Price', 'Model', applications_final_weight);
+        'AMD AM4', 'RGB Sync', 'Price', 'Model', applicationsFinalWeight);
 
     checkTheHardware_list(
         powersupplayhardware_list,
@@ -115,7 +120,7 @@ class CreatePc {
         'Moduler',
         'Price',
         'Name',
-        applications_final_weight);
+        applicationsFinalWeight);
   }
 
   checkTheHardware_list(
@@ -184,25 +189,51 @@ class CreatePc {
   void filterByApplication(List<ModelProvider> hardwarelist,
       int applicationsFinalWeight, String hardwareType) {
     if (hardwareType == 'CPU_2') {
-      ;
+      // print(hardwarelist);
       ModelProvider cpu =
           getBestCPU(filterCPU(hardwarelist, applicationsFinalWeight));
+      // print(cpu.prop1);
 
-      print(cpu.title);
+      datapc.add(cpu);
+
+      // print(cpu.title);
+      // thebestcpu = cpu;
+
     } else if (hardwareType == 'Motherboard') {
-      filterMB(hardwarelist, applicationsFinalWeight);
-    } else if (hardwareType == 'GPU') {
-      filterGPU(hardwarelist, applicationsFinalWeight);
+      // hardwarelist = checkcompatibility(hardwarelist, thebestcpu!);
+      // print(hardwarelist);
+      ModelProvider motherBored =
+          getBestmotherbored(filterMB(hardwarelist, applicationsFinalWeight));
+      datapc.add(motherBored);
+    }
+    //the gpu is over with check
+    else if (hardwareType == 'GPU') {
+      ModelProvider gpu =
+          getBestGPU(filterGPU(hardwarelist, applicationsFinalWeight));
+      datapc.add(gpu);
     } else if (hardwareType == 'Power Supply') {
-      filterPowerSupply(hardwarelist, applicationsFinalWeight);
+      ModelProvider powerSupply = getBestpowersupplay(
+          filterPowerSupply(hardwarelist, applicationsFinalWeight));
+
+      datapc.add(powerSupply);
     } else if (hardwareType == 'CPU Cooler') {
       // not affected
+
+      ModelProvider cooler = getBestcooler(hardwarelist);
+      datapc.add(cooler);
     } else if (hardwareType == 'Storage') {
-      filterStorage(hardwarelist, applicationsFinalWeight);
+      ModelProvider storage =
+          getBeststorage(filterStorage(hardwarelist, applicationsFinalWeight));
+      datapc.add(storage);
     } else if (hardwareType == 'Memory') {
-      filterRAM(hardwarelist, applicationsFinalWeight);
+      ModelProvider ram =
+          getBestRam(filterRAM(hardwarelist, applicationsFinalWeight));
+      datapc.add(ram);
     } else if (hardwareType == 'Case') {
       // not affected
+
+      ModelProvider pcCase = getBestCase(hardwarelist);
+      datapc.add(pcCase);
     }
   }
 
@@ -211,9 +242,11 @@ class CreatePc {
     int applicationsFinalWeight,
   ) {
     if (hardwarelist.length == 1) {
-      // the final hradware part
+      return cpuhardware_list;
     }
+
     for (var i = 0; i < hardwarelist.length; i++) {
+      // print(hardwarelist);
       if (applicationsFinalWeight < 5) {
         if (int.parse(hardwarelist[i].prop1![0]) < 6) {
           cpuhardware_list.removeAt(i);
@@ -274,6 +307,7 @@ class CreatePc {
     }
     for (var i = 0; i < hardwarelist.length; i++) {
       // print(gpuhardware_list[i].prop3![0]);
+      // print(applicationsFinalWeight);
       if (applicationsFinalWeight < 5) {
         if (int.parse(hardwarelist[i].prop3![0]) < 2) {
           gpuhardware_list.removeAt(i);
@@ -367,15 +401,22 @@ class CreatePc {
     // print(applicationsFinalWeight);
     String number;
     String value;
+    var capicity;
 
     for (var i = 0; i < hardwarelist.length; i++) {
+      // print('hardwarelist[i].prop3![0]');
+      // print(hardwarelist[i].prop3![0]);
+      if (hardwarelist[i].prop3![0] == '') {
+        capicity = 16;
+      }
       number = hardwarelist[i].prop3![0][0];
+
       if (hardwarelist[i].prop3![0][5] == 'G') {
         value = hardwarelist[i].prop3![0][4];
       } else {
         value = hardwarelist[i].prop3![0][4] + hardwarelist[i].prop3![0][5];
       }
-      var capicity = int.parse(number) * int.parse(value);
+      capicity = int.parse(number) * int.parse(value);
       // print(capicity);
 
       if (hardwarelist.length == 1) {
@@ -402,46 +443,412 @@ class CreatePc {
     return rAMhardware_list;
   }
 
-  ModelProvider getBestCPU(List<ModelProvider> cpuhardware_list) {
-    print(cpuhardware_list);
+  ModelProvider getBestCPU(List<ModelProvider> cpuhardwareList) {
+    // print(cpuhardware_list);
 
-    int value = 0;
+    if (cpuhardwareList.length == 1) return cpuhardwareList[0];
 
-    if (cpuhardware_list.length == 1) return cpuhardware_list[0];
-
-    for (var i = 0; i < cpuhardware_list.length; i++) {
-      for (var j = 1; j < cpuhardware_list.length; j++) {
-        if (int.parse(cpuhardware_list[i].prop1![0]) >
-            int.parse(cpuhardware_list[j].prop1![0])) {
-          cpuhardware_list[i].points += 1;
+    for (var i = 0; i < cpuhardwareList.length; i++) {
+      for (var j = 1; j < cpuhardwareList.length; j++) {
+        if (int.parse(cpuhardwareList[i].prop1![0]) >
+            int.parse(cpuhardwareList[j].prop1![0])) {
+          cpuhardwareList[i].points += 1;
         } else {
-          cpuhardware_list[j].points += 1;
+          cpuhardwareList[j].points += 1;
         }
 
-        if (int.parse(cpuhardware_list[i].prop2![0]) >
-            int.parse(cpuhardware_list[j].prop2![0])) {
-          cpuhardware_list[i].points += 1;
+        if (int.parse(cpuhardwareList[i].prop2![0]) >
+            int.parse(cpuhardwareList[j].prop2![0])) {
+          cpuhardwareList[j].points += 1;
         } else {
-          cpuhardware_list[j].points += 1;
+          cpuhardwareList[i].points += 1;
         }
 
-        if (double.parse(cpuhardware_list[i].price) >
-            double.parse(cpuhardware_list[j].price)) {
-          cpuhardware_list[j].points += 1;
+        if (double.parse(cpuhardwareList[i].price) >
+            double.parse(cpuhardwareList[j].price)) {
+          cpuhardwareList[j].points += 1;
         } else {
-          cpuhardware_list[i].points += 1;
+          cpuhardwareList[i].points += 1;
         }
       }
-      points.add(cpuhardware_list[i].points.toString());
+    }
+    for (var i = 0; i < cpuhardwareList.length; i++) {
+      points.add(cpuhardwareList[i].points);
+    }
+
+    points.sort();
+
+    for (var i = 0; i < cpuhardwareList.length; i++) {
+      // ignore: unrelated_type_equality_checks
+
+      if (cpuhardwareList[i].points == points.last) {
+        return cpuhardwareList[i];
+      }
+    }
+
+    return cpuhardwareList[0];
+  }
+
+  ModelProvider getBestmotherbored(List<ModelProvider> mBhardwareList) {
+    List<int> points = [];
+
+    if (mBhardwareList.length == 1) return mBhardwareList[0];
+
+    for (var i = 0; i < mBhardwareList.length; i++) {
+      for (var j = 1; j < mBhardwareList.length; j++) {
+        if (int.parse(mBhardwareList[i].prop1![0]) >
+            int.parse(mBhardwareList[j].prop1![0])) {
+          mBhardwareList[i].points += 1;
+        } else {
+          mBhardwareList[j].points += 1;
+        }
+
+        if (int.parse(mBhardwareList[i].prop2![0]) >
+            int.parse(mBhardwareList[j].prop2![0])) {
+          mBhardwareList[i].points += 1;
+        } else {
+          mBhardwareList[j].points += 1;
+        }
+
+        if (double.parse(mBhardwareList[i].price) >
+            double.parse(mBhardwareList[j].price)) {
+          mBhardwareList[j].points += 1;
+        } else {
+          mBhardwareList[i].points += 1;
+        }
+      }
+    }
+
+    for (var i = 0; i < mBhardwareList.length; i++) {
+      points.add(mBhardwareList[i].points);
     }
     points.sort();
-    // print(points.first);
-    for (var i = 0; i < cpuhardware_list.length; i++) {
+
+    // print(points);
+
+    for (var i = 0; i < mBhardwareList.length; i++) {
       // ignore: unrelated_type_equality_checks
-      if (cpuhardware_list[i].points == points.first) {
-        return cpuhardware_list[i];
+
+      if (mBhardwareList[i].points < points.last) {
+        mBhardwareList.removeAt(i);
+
+        // return cpuhardwareList[i];
       }
     }
-    return cpuhardware_list[0];
+
+    // print(savedi);
+    return mBhardwareList[0];
+  }
+
+  checkcompatibility(
+      List<ModelProvider> hardwareList, ModelProvider hardwareitem) {
+    var compatibility = false;
+    for (var i = 0; i < hardwareList.length; i++) {
+      if (hardwareitem.prop3![0].contains(hardwareList[i].prop3![0])) {
+        // print(hardwareitem.prop3![0]);
+        // print(hardware_list[i].prop3![0]);
+        compatibility = true;
+        // print('yes');
+      } else {
+        // print(hardwareitem.prop3![0]);
+        // print(hardware_list[i].prop3![0]);
+        hardwareList.removeAt(i);
+      }
+    }
+
+    if (!compatibility || hardwareList.length == 0) {
+      // please change the hardware there are not compatibility
+    }
+
+    return hardwareList;
+  }
+
+  getBestGPU(List<ModelProvider> gpuhardwareList) {
+    // print(gpuhardwareList);
+    List<int> points = [];
+
+    if (gpuhardwareList.length == 1) return gpuhardwareList[0];
+
+    for (var i = 0; i < gpuhardwareList.length; i++) {
+      for (var j = 1; j < gpuhardwareList.length; j++) {
+        if (int.parse(gpuhardwareList[i].prop3![0]) >
+            int.parse(gpuhardwareList[j].prop3![0])) {
+          gpuhardwareList[i].points += 1;
+        } else {
+          gpuhardwareList[j].points += 1;
+        }
+
+        if (int.parse(gpuhardwareList[i].prop2![0]) >
+            int.parse(gpuhardwareList[j].prop2![0])) {
+          gpuhardwareList[i].points += 1;
+        } else {
+          gpuhardwareList[j].points += 1;
+        }
+
+        if (double.parse(gpuhardwareList[i].price) >
+            double.parse(gpuhardwareList[j].price)) {
+          gpuhardwareList[j].points += 1;
+        } else {
+          gpuhardwareList[i].points += 1;
+        }
+      }
+    }
+    for (var i = 0; i < gpuhardwareList.length; i++) {
+      points.add(gpuhardwareList[i].points);
+    }
+    points.sort();
+
+    // print(points);
+    for (var i = 0; i < gpuhardwareList.length; i++) {
+      // ignore: unrelated_type_equality_checks
+
+      if (gpuhardwareList[i].points == points.last) {
+        return gpuhardwareList[i];
+
+        // return cpuhardwareList[i];
+      }
+    }
+
+    // print(savedi);
+  }
+
+  ModelProvider getBestRam(List<ModelProvider> ramHardwareList) {
+    List<int> points = [];
+    String number;
+    String value;
+    var others_capability;
+    var main_capability;
+
+    if (ramHardwareList.length == 1) return ramHardwareList[0];
+
+    for (var i = 0; i < ramHardwareList.length; i++) {
+      number = ramHardwareList[i].prop3![0][0];
+      if (ramHardwareList[i].prop3![0][5] == 'G') {
+        value = ramHardwareList[i].prop3![0][4];
+      } else {
+        value =
+            ramHardwareList[i].prop3![0][4] + ramHardwareList[i].prop3![0][5];
+      }
+      main_capability = int.parse(value) * int.parse(number);
+      // print(main_capability);
+      for (var j = 1; j < ramHardwareList.length; j++) {
+        number = ramHardwareList[i].prop3![0][0];
+        if (ramHardwareList[i].prop3![0][5] == 'G') {
+          value = ramHardwareList[i].prop3![0][4];
+        } else {
+          value =
+              ramHardwareList[i].prop3![0][4] + ramHardwareList[i].prop3![0][5];
+        }
+        others_capability = int.parse(value) * int.parse(number);
+        // print(others_capability);
+
+        if (int.parse(ramHardwareList[i].prop1![0]) >
+            int.parse(ramHardwareList[j].prop1![0])) {
+          ramHardwareList[j].points += 1;
+        } else {
+          ramHardwareList[i].points += 1;
+        }
+
+        if (main_capability > others_capability) {
+          ramHardwareList[i].points += 1;
+        } else {
+          ramHardwareList[j].points += 1;
+        }
+
+        if (double.parse(ramHardwareList[i].price) >
+            double.parse(ramHardwareList[j].price)) {
+          ramHardwareList[j].points += 1;
+        } else {
+          ramHardwareList[i].points += 1;
+        }
+      }
+    }
+    for (var i = 0; i < ramHardwareList.length; i++) {
+      points.add(ramHardwareList[i].points);
+    }
+    points.sort();
+    // print(points);
+
+    for (var i = 0; i < ramHardwareList.length; i++) {
+      // ignore: unrelated_type_equality_checks
+
+      if (ramHardwareList[i].points == points.last) {
+        return ramHardwareList[i];
+
+        // return cpuhardwareList[i];
+      }
+    }
+
+    // print(savedi);
+    return ramHardwareList[0];
+  }
+
+  ModelProvider getBeststorage(List<ModelProvider> storageHardwareList) {
+    List<int> points = [];
+
+    if (storageHardwareList.length == 1) return storageHardwareList[0];
+
+    for (var i = 0; i < storageHardwareList.length; i++) {
+      for (var j = 1; j < storageHardwareList.length; j++) {
+        if (double.parse(storageHardwareList[i].prop1![0]) >
+            double.parse(storageHardwareList[j].prop1![0])) {
+          storageHardwareList[j].points += 1;
+        } else {
+          storageHardwareList[i].points += 1;
+        }
+
+        if (storageHardwareList[i].prop3![0] == 'SSD') {
+          storageHardwareList[i].points += 2;
+        }
+
+        if (double.parse(storageHardwareList[i].price) >
+            double.parse(storageHardwareList[j].price)) {
+          storageHardwareList[j].points += 1;
+        } else {
+          storageHardwareList[i].points += 1;
+        }
+      }
+    }
+
+    for (var i = 0; i < storageHardwareList.length; i++) {
+      points.add(storageHardwareList[i].points);
+    }
+    points.sort();
+    // print(points);
+
+    for (var i = 0; i < storageHardwareList.length; i++) {
+      // ignore: unrelated_type_equality_checks
+
+      if (storageHardwareList[i].points == points.last) {
+        return storageHardwareList[i];
+
+        // return cpuhardwareList[i];
+      }
+    }
+
+    // print(savedi);
+    return storageHardwareList[0];
+  }
+
+  ModelProvider getBestpowersupplay(
+      List<ModelProvider> powersupplayhardwareList) {
+    List<int> points = [];
+
+    if (powersupplayhardwareList.length == 1)
+      return powersupplayhardwareList[0];
+
+    for (var i = 0; i < powersupplayhardwareList.length; i++) {
+      for (var j = 1; j < powersupplayhardwareList.length; j++) {
+        if (int.parse(powersupplayhardwareList[i].prop1![0]) <
+            int.parse(powersupplayhardwareList[j].prop1![0])) {
+          powersupplayhardwareList[i].points += 1;
+        } else {
+          powersupplayhardwareList[j].points += 1;
+        }
+
+        if (double.parse(powersupplayhardwareList[i].price) >
+            double.parse(powersupplayhardwareList[j].price)) {
+          powersupplayhardwareList[j].points += 1;
+        } else {
+          powersupplayhardwareList[i].points += 1;
+        }
+      }
+    }
+    for (var i = 0; i < powersupplayhardwareList.length; i++) {
+      points.add(powersupplayhardwareList[i].points);
+    }
+
+    points.sort();
+
+    // print(points);
+    for (var i = 0; i < powersupplayhardwareList.length; i++) {
+      // ignore: unrelated_type_equality_checks
+
+      if (powersupplayhardwareList[i].points == points.last) {
+        return powersupplayhardwareList[i];
+      }
+    }
+
+    return powersupplayhardwareList[0];
+  }
+
+  ModelProvider getBestCase(List<ModelProvider> casehardwareList) {
+    List<int> points = [];
+
+    if (casehardwareList.length == 1) return casehardwareList[0];
+
+    for (var i = 0; i < casehardwareList.length; i++) {
+      for (var j = 1; j < casehardwareList.length; j++) {
+        if (double.parse(casehardwareList[i].price) >
+            double.parse(casehardwareList[j].price)) {
+          casehardwareList[j].points += 1;
+        } else {
+          casehardwareList[i].points += 1;
+        }
+      }
+    }
+    for (var i = 0; i < casehardwareList.length; i++) {
+      points.add(casehardwareList[i].points);
+    }
+
+    points.sort();
+
+    // print(points);
+    for (var i = 0; i < casehardwareList.length; i++) {
+      // ignore: unrelated_type_equality_checks
+
+      if (casehardwareList[i].points == points.last) {
+        return casehardwareList[i];
+      }
+    }
+
+    return casehardwareList[0];
+  }
+
+  ModelProvider getBestcooler(List<ModelProvider> coolerhardwareList) {
+    List<int> points = [];
+
+    if (coolerhardwareList.length == 1) return coolerhardwareList[0];
+
+    for (var i = 0; i < coolerhardwareList.length; i++) {
+      for (var j = 1; j < coolerhardwareList.length; j++) {
+        if (coolerhardwareList[i].prop3![0] == 'Yes') {
+          coolerhardwareList[i].points += 1;
+        } else {
+          coolerhardwareList[j].points += 1;
+        }
+
+        if (double.parse(coolerhardwareList[i].price) >
+            double.parse(coolerhardwareList[j].price)) {
+          coolerhardwareList[j].points += 1;
+        } else {
+          coolerhardwareList[i].points += 1;
+        }
+      }
+    }
+    for (var i = 0; i < coolerhardwareList.length; i++) {
+      points.add(coolerhardwareList[i].points);
+    }
+
+    points.sort();
+
+    // print(points);
+    for (var i = 0; i < coolerhardwareList.length; i++) {
+      // ignore: unrelated_type_equality_checks
+
+      if (coolerhardwareList[i].points == points.last) {
+        return coolerhardwareList[i];
+      }
+    }
+
+    return coolerhardwareList[0];
+  }
+
+  List<ModelProvider> getpcdata() {
+    return datapc;
+  }
+
+  resetdatapc() {
+    datapc = [];
   }
 }

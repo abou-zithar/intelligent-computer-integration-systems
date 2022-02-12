@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Screens/Software_info_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/software.dart';
-import '../providers/software_provider.dart';
+
 import '../providers/Models.dart';
 
 class software_item extends StatelessWidget {

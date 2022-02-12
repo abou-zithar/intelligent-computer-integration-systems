@@ -1,3 +1,5 @@
+import 'package:best_flutter_ui_templates/PC_Builder/Items/Searchbar.dart';
+
 import '../items/Hardware_items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -72,24 +74,13 @@ class HardwareGrid extends StatelessWidget {
       itemCount: hardwares.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
         value: hardwares[i],
-        child: Hardware_item()
-        //hardwares[i].icon, hardwares[i].id,
-        //     hardwares[i].Type, hardwares[i].Imageurl, hardwares[i].price
-        ,
+        child: Hardware_item(),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
           childAspectRatio: 3 / 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
-      // children: Hardware.DUMMY_Hardware.map((e) => Hardware_item(
-      //     e.icon,
-      //     e.Manfacturer,
-      //     e.Type,
-      //     e.Rating,
-      //     e.Imageurl,
-      //     e.Description,
-      //     e.price)).toList(),
     );
   }
 }
