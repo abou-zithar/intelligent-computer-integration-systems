@@ -1,9 +1,10 @@
+import 'package:best_flutter_ui_templates/PC_Builder/Screens/FinalPC.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/user_model.dart';
+import '../providers/user_model.dart';
 import '../../navigation_home_screen.dart';
 
 // Create a Form widget.
@@ -226,6 +227,7 @@ class SettingScreenState extends State<SettingScreen> {
                           return SizedBox.shrink();
                         },
                       );
+                      PCScreen.getbudget(budgetController.text);
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,

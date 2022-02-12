@@ -1,39 +1,38 @@
-// import 'dart:ffi';
-import 'package:best_flutter_ui_templates/PC_Builder/providers/Hardware.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'createPC.dart';
 
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class ModelProvider with ChangeNotifier {
-  ModelProvider({
-    required this.id,
-    required this.title,
-    required this.imagePath,
-    required this.price,
-    this.discription = '',
-    required this.rating,
-    required this.color,
-    required this.type,
-    this.overhead,
-    this.prop1 = const ['value', 'NOTV'],
-    this.prop2 = const ['value', 'NOTV'],
-    this.prop3 = const ['value', 'NOTV'],
-  });
+  ModelProvider(
+      {required this.id,
+      required this.title,
+      this.imagePath,
+      required this.price,
+      this.discription = '',
+      required this.rating,
+      this.color,
+      required this.type,
+      this.overhead,
+      this.prop1 = const ['value', 'NOTV'],
+      this.prop2 = const ['value', 'NOTV'],
+      this.prop3 = const ['value', 'NOTV'],
+      this.points = 0});
 
   final String title;
   final String price;
   final String discription;
   final double rating;
-  final String imagePath;
-  final Color color;
+  final String? imagePath;
+  final Color? color;
   final String id;
   final SWHW type;
   final String? overhead;
   final List<String>? prop1;
   final List<String>? prop2;
   final List<String>? prop3;
+  int points;
 }
 
 class Models with ChangeNotifier {
@@ -81,7 +80,6 @@ class Models with ChangeNotifier {
               color: color,
               type: type,
               overhead: overhead));
-      print('${items.length}');
     }
     notifyListeners();
   }
@@ -99,36 +97,36 @@ class Models with ChangeNotifier {
   //-----------------------
 //the main algo of the program
 //------------------------------
-  void createPC(List<ModelProvider> pcItemsList) {
+  List<ModelProvider> createPC(List<ModelProvider> pcItemsList) {
     var functionsTocreatePC = new CreatePc();
-
+    // functionsTocreatePC.resetdatapc();
     List<ModelProvider>? hardware;
-
-    var applications_final_weight;
-
+    List<ModelProvider> finalCreatedPC;
+    var applicationsFinalWeight = 0;
     var hardWare_Type;
 
     for (int i = 0; i < pcItemsList.length; i++) {
       if (pcItemsList[i].type == SWHW.software) {
         // the value that i will filter base on it
 
-        applications_final_weight =
+        applicationsFinalWeight +=
             functionsTocreatePC.findfilter(pcItemsList[i].overhead);
       } else if (pcItemsList[i].type == SWHW.hardware) {
         // to find the type of each pcItem by prop1
         hardWare_Type = functionsTocreatePC.findType(pcItemsList[i].prop1);
 // after knowing the type we put every hardware items with the same type in the same list
         functionsTocreatePC.filter_Hardware(pcItemsList[i], hardWare_Type);
-// call complete lsits function to enhance the lists to make them ready for the next step
-        functionsTocreatePC.completeHardware_lists();
       }
     }
+    // print(applicationsFinalWeight);
+    functionsTocreatePC.completeHardware_lists(applicationsFinalWeight);
 
-    // for (int i = 0; i < pcItemsList.length; i++) {
-    //   if (pcItemsList[i].type == SWHW.hardware) {
+    finalCreatedPC = functionsTocreatePC.getpcdata();
+    if (finalCreatedPC.length > 8) {
+      finalCreatedPC.clear();
+    }
 
-    //   }
-    // }
+    return finalCreatedPC;
   }
 }
 

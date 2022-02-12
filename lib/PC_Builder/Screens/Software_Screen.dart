@@ -40,7 +40,12 @@ class Software_scresen extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          IconButton(onPressed: null, icon: Icon(Icons.computer))
+          IconButton(
+              onPressed: () => Navigator.of(context).pushNamed('./model'),
+              icon: Icon(
+                Icons.computer,
+                color: Colors.black,
+              ))
         ],
         backgroundColor: Colors.white,
         title: Padding(
@@ -79,27 +84,13 @@ class softGrip extends StatelessWidget {
       itemCount: soft.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
         value: soft[i],
-        child: software_item()
-        // soft[i].title, soft[i].version,
-        //   soft[i].discription, soft[i].imagePath, soft[i].rating
-
-        //hardwares[i].icon, hardwares[i].id,
-        //     hardwares[i].Type, hardwares[i].Imageurl, hardwares[i].price
-        ,
+        child: software_item(),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 1,
           childAspectRatio: 3 / 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
-      // children: Hardware.DUMMY_Hardware.map((e) => Hardware_item(
-      //     e.icon,
-      //     e.Manfacturer,
-      //     e.Type,
-      //     e.Rating,
-      //     e.Imageurl,
-      //     e.Description,
-      //     e.price)).toList(),
     );
   }
 }

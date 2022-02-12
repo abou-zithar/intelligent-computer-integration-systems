@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routName = './login';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -121,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                         height: 200,
                         child: Image.asset(
-                          "assets/new_images/chip.png",
+                          "assets/new_images/pc-tower.png",
                           fit: BoxFit.contain,
                         )),
                     SizedBox(height: 45),
@@ -131,21 +132,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 35),
                     loginButton,
                     SizedBox(height: 15),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlue,
-                          onPrimary: Color.fromARGB(255, 255, 255, 255),
-                          minimumSize: Size(double.infinity, 40)),
-                      icon:
-                          FaIcon(FontAwesomeIcons.google, color: Colors.white),
-                      label: Text('Sign up with Google'),
-                      onPressed: () {
-                        final provider = Provider.of<GoogleSignInProvider>(
-                            context,
-                            listen: false);
-                        provider.googleLogin();
-                      },
-                    ),
+                    // ElevatedButton.icon(
+                    //   style: ElevatedButton.
+                    // styleFrom(
+                    //       primary: Colors.lightBlue,
+                    //       onPrimary: Color.fromARGB(255, 255, 255, 255),
+                    //       minimumSize: Size(double.infinity, 40)),
+                    //   icon:
+                    //       FaIcon(FontAwesomeIcons.google, color: Colors.white),
+                    //   label: Text('Sign up with Google'),
+                    //   onPressed: () {
+                    //     final provider = Provider.of<GoogleSignInProvider>(
+                    //         context,
+                    //         listen: false);
+                    //     provider.googleLogin();
+                    //   },
+                    // ),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

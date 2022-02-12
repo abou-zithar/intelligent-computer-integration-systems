@@ -1,6 +1,7 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
 
+
 class HelpScreen extends StatefulWidget {
   @override
   _HelpScreenState createState() => _HelpScreenState();
@@ -70,7 +71,9 @@ class _HelpScreenState extends State<HelpScreen> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).pushNamed('./chat');
+                          },
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),

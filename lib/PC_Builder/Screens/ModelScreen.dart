@@ -1,3 +1,5 @@
+import 'package:best_flutter_ui_templates/PC_Builder/Screens/FinalPC.dart';
+import 'package:best_flutter_ui_templates/PC_Builder/Screens/finalpcScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Items/model_item.dart';
@@ -49,7 +51,12 @@ class ModelScreen extends StatelessWidget {
             elevation: 5,
           ),
           onPressed: () {
-            modeldata.createPC(model.values.toList());
+            final finallist = modeldata.createPC(model.values.toList());
+            // print(finallist);
+            // Navigator.pushNamed(context, FinalPC.routName,
+            //     arguments: finallist);
+            Navigator.pushNamed(context, PCScreen.routeName,
+                arguments: finallist);
           },
         )
       ]),

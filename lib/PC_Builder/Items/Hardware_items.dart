@@ -13,9 +13,6 @@ class Hardware_item extends StatefulWidget {
 class _Hardware_itemState extends State<Hardware_item> {
   @override
   Widget build(BuildContext context) {
-    // FirebaseFirestore.instance.collection('CPU').snapshots().listen((data) {
-    //   print(data.docs[1].data());
-    // });
     final hardwareitem = Provider.of<Hardware>(context);
     final models = Provider.of<Models>(context);
 
@@ -46,14 +43,6 @@ class _Hardware_itemState extends State<Hardware_item> {
           trailing: IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              // FirebaseFirestore.instance
-              //     .collection('CPU')
-              //     .snapshots()
-              //     .listen((data) {
-              //   print(data.docs.map((docs) {
-              //     print(docs['Name']);
-              //   }));
-              // });
               models.addItem(
                   hardwareitem.id,
                   hardwareitem.price,
@@ -62,11 +51,11 @@ class _Hardware_itemState extends State<Hardware_item> {
                   hardwareitem.Imageurl,
                   hardwareitem.color,
                   hardwareitem.swhw,
-
                   null,
                   hardwareitem.prop1,
                   hardwareitem.prop2,
                   hardwareitem.prop3);
+
               Scaffold.of(context).hideCurrentSnackBar();
 
               Scaffold.of(context).showSnackBar(SnackBar(
@@ -87,55 +76,5 @@ class _Hardware_itemState extends State<Hardware_item> {
         ),
       ),
     );
-    // InkWell(
-    //   onTap: () => selectHardware(context),
-    //   onLongPress: null,
-    //   splashColor: Theme.of(context).primaryColor,
-    //   borderRadius: BorderRadius.circular(15),
-    //   child: Container(
-    //     padding: const EdgeInsets.all(20),
-    //     child: Column(
-    //       children: [
-    //         Image.asset(
-    //           imageurl,
-    //           height: 50,
-    //         ),
-    //         Text(title),
-    //         SizedBox(
-    //           height: 5,
-    //         ),
-    //         Row(
-    //           children: [
-    //             Container(
-    //                 child: Text(
-    //               type,
-    //             )),
-    //             SizedBox(
-    //               width: MediaQuery.of(context).size.width / 15,
-    //             ),
-    //             Text(
-    //               '${Rating}',
-    //             ),
-    //             Icon(
-    //               Icons.star,
-    //               color: PCBuilderAppTheme.nearlyBlue,
-    //             )
-    //           ],
-    //         ),
-    //         SizedBox(
-    //           height: 5,
-    //         ),
-    //         Text('$Description'),
-    //         SizedBox(
-    //           height: 5,
-    //         ),
-    //         Text('\$${price}'),
-    //       ],
-    //     ),
-    //     decoration: BoxDecoration(
-    //         color: HexColor('#f8fafb'),
-    //         borderRadius: BorderRadius.circular(15)),
-    //   ),
-    // ),
   }
 }

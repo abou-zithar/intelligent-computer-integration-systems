@@ -1,5 +1,7 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class FeedbackScreen extends StatefulWidget {
   @override
@@ -11,6 +13,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   void initState() {
     super.initState();
   }
+
+  final feedback = TextEditingController(
+    text: 'Mail body.',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +80,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
+                              sendEmail(massage: feedback.text);
                             },
                             child: Center(
                               child: Padding(
@@ -126,6 +132,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               padding:
                   const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
               child: TextField(
+                controller: feedback,
                 maxLines: null,
                 onChanged: (String txt) {},
                 style: TextStyle(
@@ -143,5 +150,26 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         ),
       ),
     );
+  }
+
+  Future sendEmail({required String massage}) async {
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(url,
+        headers: {
+          'origin': 'http://localhost',
+          'Content-Type': 'application/json'
+        },
+        body: json.encode({
+          'service_id': 'service_wmq4jjf',
+          'template_id': 'template_po7bqys',
+          'user_id': 'user_LrvshaAoEXuQX17qroNZm',
+          'template_params': {
+            'user_name': 'mahmoud',
+            'user_email': 'dodiahli20@gmail.com',
+            'user_subject': 'help',
+            'user_massage': massage,
+          }
+        }));
+    print(response.body);
   }
 }

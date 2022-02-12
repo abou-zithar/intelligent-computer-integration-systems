@@ -1,9 +1,10 @@
+import 'package:best_flutter_ui_templates/PC_Builder/Screens/Software_info_screen.dart';
+
 import '../providers/Models.dart' show SWHW;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/Models.dart';
 import '../Screens/Hardware_info_screen.dart';
-import '../providers/Hardware.dart';
 
 class ModelItem extends StatelessWidget {
   final String counter;
@@ -60,7 +61,7 @@ class ModelItem extends StatelessWidget {
         },
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          //aaaaaaaaaaaaaaaaaaaaaaah
+          // solved problem;
           Provider.of<Models>(context, listen: false).removeItem(id);
         },
         child: Card(
@@ -69,8 +70,11 @@ class ModelItem extends StatelessWidget {
             padding: EdgeInsets.all(8),
             child: ListTile(
               onTap: () {
-                Navigator.of(context)
-                    .pushNamed(HardwareInfoScreen.routName, arguments: id);
+                type == SWHW.hardware
+                    ? Navigator.of(context)
+                        .pushNamed(HardwareInfoScreen.routName, arguments: id)
+                    : Navigator.of(context)
+                        .pushNamed(SoftwareInfoScreen.routName, arguments: id);
               },
               leading: CircleAvatar(
                 child: FittedBox(child: Text('$counter')),

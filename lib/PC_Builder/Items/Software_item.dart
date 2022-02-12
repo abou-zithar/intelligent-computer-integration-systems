@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Screens/Software_info_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/software.dart';
-import '../providers/software_provider.dart';
+
 import '../providers/Models.dart';
 
 class software_item extends StatelessWidget {
@@ -53,7 +53,10 @@ class software_item extends StatelessWidget {
                     softwareitem.imagePath,
                     softwareitem.color,
                     softwareitem.swhw,
-                    softwareitem.discription,null,null,null);
+                    softwareitem.discription,
+                    null,
+                    null,
+                    null);
                 Scaffold.of(context).hideCurrentSnackBar();
 
                 Scaffold.of(context).showSnackBar(SnackBar(

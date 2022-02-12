@@ -1,5 +1,6 @@
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 class InviteFriend extends StatefulWidget {
   @override
@@ -73,6 +74,9 @@ class _InviteFriendState extends State<InviteFriend> {
                           onTap: () {
                             //method here for functionality
                             print('Share Action.');
+                            Share.share(
+                                'check out my website https://pcpartpicker.com/list/',
+                                subject: 'Look what I made!');
                           },
                           child: Center(
                             child: Row(

@@ -22,7 +22,7 @@ class _HardwareInfoScreen extends State<HardwareInfoScreen>
   @override
   void initState() {
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+        duration: const Duration(milliseconds: 1500), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: animationController!,
         curve: Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
@@ -32,15 +32,15 @@ class _HardwareInfoScreen extends State<HardwareInfoScreen>
 
   Future<void> setData() async {
     animationController?.forward();
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
     setState(() {
       opacity1 = 1.0;
     });
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
     setState(() {
       opacity2 = 1.0;
     });
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
     setState(() {
       opacity3 = 1.0;
     });
