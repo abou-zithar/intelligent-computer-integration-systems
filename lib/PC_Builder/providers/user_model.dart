@@ -1,9 +1,12 @@
-class UserModel {
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class UserModel with ChangeNotifier {
   String? uid;
   String? email;
   String? firstName;
   String? secondName;
-  String? budget;
+  String budget;
   String? address;
   String? age;
 
@@ -14,9 +17,10 @@ class UserModel {
       this.secondName,
       this.address,
       this.age,
-      this.budget});
+      this.budget = '10000'});
 
   // receiving data from server
+
   factory UserModel.fromMap(map) {
     return UserModel(
       uid: map['uid'],

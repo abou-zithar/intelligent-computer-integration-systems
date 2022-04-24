@@ -1,7 +1,9 @@
+import 'package:best_flutter_ui_templates/PC_Builder/Screens/FinalPC.dart';
+import 'package:best_flutter_ui_templates/PC_Builder/Screens/finalpcScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Items/model_item.dart';
-import '../providers/Models.dart' show Models, SWHW;
+import '../providers/Models.dart' show Models;
 
 class ModelScreen extends StatelessWidget {
   static const routeName = './model';
@@ -27,7 +29,8 @@ class ModelScreen extends StatelessWidget {
           child: ListView.builder(
             itemBuilder: (ctx, index) {
               return ModelItem(
-                id: (index + 1).toString(),
+                counter: (index + 1).toString(),
+                id: model.values.toList()[index].id,
                 productid: model.keys.toList()[index],
                 price: model.values.toList()[index].price,
                 title: model.values.toList()[index].title,
@@ -40,7 +43,7 @@ class ModelScreen extends StatelessWidget {
         ),
         Padding(padding: EdgeInsets.all(10)),
         TextButton(
-          child: Text('Create Now'),
+          child: Text('Create PC'),
           style: TextButton.styleFrom(
             primary: Colors.lightBlue,
             backgroundColor: Colors.white,
@@ -48,7 +51,12 @@ class ModelScreen extends StatelessWidget {
             elevation: 5,
           ),
           onPressed: () {
-            print('Pressed');
+            final finallist = modeldata.createPC(model.values.toList());
+            // print(finallist);
+            // Navigator.pushNamed(context, FinalPC.routName,
+            //     arguments: finallist);
+            Navigator.pushNamed(context, PCScreen.routeName,
+                arguments: finallist);
           },
         )
       ]),

@@ -8,78 +8,7 @@ import 'Hardware.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class hardware with ChangeNotifier {
-  List<Hardware> _item = [
-    // Hardware(
-    //     id: '1H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good CPU',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'inetl',
-    //     Type: 'CPU',
-    //     price: '15023',
-    //     Imageurl: 'assets/new_images/chip.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '2H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good GPU',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'amd',
-    //     Type: 'GPU',
-    //     price: 13342,
-    //     Imageurl: 'assets/new_images/vga-card.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '3H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good storage',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'segate ',
-    //     Type: 'storage',
-    //     price: 12345,
-    //     Imageurl: 'assets/new_images/harddisk.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '4H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good RAM',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'Lenovo ',
-    //     Type: 'RAM',
-    //     price: 3422,
-    //     Imageurl: 'assets/new_images/ram.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '5H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good Cooler',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'IBM',
-    //     Type: 'Cooler',
-    //     price: 7562,
-    //     Imageurl: 'assets/new_images/cooler.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '6H',
-    //     Rating: 4.3,
-    //     Description: 'it\'s a good MotherB',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'LG ',
-    //     Type: 'MotherBoard',
-    //     price: 14532,
-    //     Imageurl: 'assets/new_images/motherboard.png',
-    //     icon: Icons.computer),
-    // Hardware(
-    //     id: '7H',
-    //     Rating: 4.3,
-    //     Description: 'it is a good case',
-    //     color: Colors.blueAccent,
-    //     Manfacturer: 'HP',
-    //     Type: 'case',
-    //     price: 23423,
-    //     Imageurl: 'assets/new_images/computer-tower.png',
-    //     icon: Icons.computer),
-  ];
+  List<Hardware> _item = [];
 
   var _showFavoritesOnly = false;
 
@@ -122,16 +51,20 @@ class hardware with ChangeNotifier {
             element.get('Released') as String,
             element.get('Name') as String,
             rating,
-            [element.get('Socket') as String, 'Socket'],
-            [element.get('TDP') as String, 'TDP'],
             [element.get('Cores') as String, 'Cores'],
+            [element.get('TDP') as String, 'TDP'],
+            [element.get('Socket') as String, 'Socket'],
             element.get('Clock'),
             'assets/new_images/chip.png');
       } else {
         print('not exist');
       }
     });
+
+    catchGpu();
   }
+
+  
 
   // get the data of gpu
   void catchGpu() async {
@@ -145,7 +78,12 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        rating = rng.nextDouble() * 5;
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         // print(element.data());
         addhardware(
             element.id,
@@ -153,8 +91,8 @@ class hardware with ChangeNotifier {
             element.get('Released') as String,
             element.get('Product_Name') as String,
             rating,
-            [element.get('GPU_Chip') as String, 'GPU_Chip'],
-            [element.get('GPU_Clock') as String, 'GPU_Clock'],
+            [element.get('GPU_Chip') as String, 'Chip'],
+            [element.get('GPU_Clock') as String, 'Clock'],
             [element.get('Memory') as String, 'Memory'],
             element.get('Memory_Clock'),
             'assets/new_images/vga-card.png');
@@ -162,6 +100,7 @@ class hardware with ChangeNotifier {
         print('not exist');
       }
     });
+    catchMemory();
   }
 
   // get the data of memory
@@ -176,8 +115,12 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        print('object');
-        rating = rng.nextDouble() * 5;
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         // print(rating);
         // print(element.data());
         addhardware(
@@ -186,15 +129,16 @@ class hardware with ChangeNotifier {
             element.get('Modules') as String,
             element.get('Name') as String,
             rating,
-            [element.get('Color') as String, 'Color'],
-            [element.get('Speed') as String, 'Speed'],
-            [element.get('CAS_latency') as String, 'CAS_latency'],
+            [element.get('CAS_latency') as String, 'CAS_l'],
+            [element.get('First_word_latency') as String, 'FWL'],
+            [element.get('Modules') as String, 'Modules'],
             element.get('First_word_latency'),
             'assets/new_images/ram.png');
       } else {
         print('not exist');
       }
     });
+    catchstorage();
   }
 
   // get the data of storage
@@ -208,7 +152,12 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        rating = rng.nextDouble() * 5;
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         // print(element.data());
         addhardware(
             element.id,
@@ -225,6 +174,7 @@ class hardware with ChangeNotifier {
         print('not exist');
       }
     });
+    catchcooler();
   }
 
   // get the data of cooler
@@ -239,7 +189,12 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        rating = rng.nextDouble() * 5;
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         // print(element.data());
         addhardware(
             element.id,
@@ -247,15 +202,16 @@ class hardware with ChangeNotifier {
             element.get('Brand') as String,
             element.get('Model') as String,
             rating,
-            [element.get('RGB Sync') as String, 'Color'],
-            [element.get('AMD AM4') as String, 'AMD AM4'],
             [element.get('Brand') as String, 'Brand'],
+            [element.get('AMD AM4') as String, 'AMD AM4'],
+            [element.get('RGB Sync') as String, 'RGB Sync'],
             element.get('LGA 115x, 1200'),
             'assets/new_images/cooler.png');
       } else {
         print('not exist');
       }
     });
+    catchMotherBoard();
   }
 
   void catchMotherBoard() async {
@@ -269,24 +225,65 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        rating = rng.nextDouble() * 5;
-        // print(element.data());
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         addhardware(
             element.id,
             element.get('Prices') as String,
-            element.get('Memory_Slots') as String,
+            element.get('Form_Factor') as String,
             element.get('Name') as String,
             rating,
-            [element.get('Color') as String, 'Color'],
-            [element.get('Form_Factor') as String, 'Form'],
+            [element.get('Memory_Max') as String, 'Max'],
+            [element.get('Memory_Slots') as String, 'Slots'],
             //problem here to get the scoket /cpu data
-            [element.get('Form_Factor') as String, 'Socket'],
-            element.get('Memory_Max'),
+            [element.get('Socket') as String, 'Socket'],
+            element.get('Color'),
             'assets/new_images/motherboard.png');
       } else {
         print('not exist');
       }
     });
+    catchcase();
+  }
+
+  void catchcase() async {
+    // print('here');
+    CollectionReference hardwareref =
+        FirebaseFirestore.instance.collection('Case');
+    var quearySnapShot = await hardwareref.get();
+
+    List<QueryDocumentSnapshot> listdocs = quearySnapShot.docs;
+// the code here donot work
+    listdocs.forEach((element) {
+      // print(element.get('Name'));
+      if (element.exists) {
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
+        // print(element.data());
+        addhardware(
+            element.id,
+            element.get('Price') as String,
+            element.get('Type') as String,
+            element.get('Name') as String,
+            rating,
+            [element.get('Type') as String, 'Type'],
+            [element.get('Color') as String, 'Color'],
+            [element.get('Side Panel Window') as String, 'SPW'],
+            element.get('Power Supply'),
+            'assets/new_images/computer-tower.png');
+      } else {
+        print('not exist');
+      }
+    });
+    catchpowerSupply();
   }
 
   void catchpowerSupply() async {
@@ -300,19 +297,24 @@ class hardware with ChangeNotifier {
     listdocs.forEach((element) {
       // print(element.get('Name'));
       if (element.exists) {
-        rating = rng.nextDouble() * 5;
+        var randomm = rng.nextDouble();
+        if (randomm > .5) {
+          rating = rng.nextDouble() + 4;
+        } else {
+          rating = rng.nextDouble() + 3;
+        }
         // print(element.data());
         addhardware(
             element.id,
             element.get('Price') as String,
-            element.get('Wattage') as String,
+            element.get('Form Factor') as String,
             element.get('Name') as String,
             rating,
+            [element.get('Wattage') as String, 'Wattage'],
             [element.get('Efficiency Rating') as String, 'ER'],
-            [element.get('Form Factor') as String, 'Form'],
             //problem here to get the scoket /cpu data
-            [element.get('Color') as String, 'Color'],
-            element.get('Moduler'),
+            [element.get('Moduler') as String, 'Moduler'],
+            element.get('Color'),
             'assets/new_images/powerSupply.png');
       } else {
         print('not exist');
@@ -352,18 +354,5 @@ class hardware with ChangeNotifier {
     notifyListeners();
   }
 
-  // bool _disposed = false;
 
-  // @override
-  // void dispose() {
-  //   _disposed = true;
-  //   super.dispose();
-  // }
-
-  // @override
-  // void notifyListeners() {
-  //   if (!_disposed) {
-  //     super.notifyListeners();
-  //   }
-  // }
 }

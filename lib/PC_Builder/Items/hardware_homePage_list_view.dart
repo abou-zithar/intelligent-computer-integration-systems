@@ -31,7 +31,7 @@ class _HardwareListViewState extends State<HardwareListView>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 150));
     return true;
   }
 
@@ -105,253 +105,247 @@ class HardwareView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final models = Provider.of<Models>(context);
-    return AnimatedBuilder(
-      animation: animationController!,
-      builder: (BuildContext context, Widget? child) {
-        return FadeTransition(
-          opacity: animation!,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                100 * (1.0 - animation!.value), 0.0, 0.0),
-            child: InkWell(
-              splashColor: Colors.transparent,
-              // ----------------------------
-              // ---------- prob-------------------
-              // -------------------------------------------------
-              onTap: () => Navigator.of(context).pushNamed(
-                  HardwareInfoScreen.routName,
-                  arguments: hardwareitem!.id),
-              // ------------------------------------------------------
-              // ----------------------------------------------------
-              child: SizedBox(
-                width: 280,
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          const SizedBox(
-                            width: 38,
-                          ),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: HexColor('#F8FAFB'),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0)),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  const SizedBox(
-                                    width: 48 + 24.0,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 16),
-                                            child: Text(
-                                              hardwareitem!.Type.length <= 16
-                                                  ? hardwareitem!.Type
-                                                  : hardwareitem!.Type
-                                                      .substring(0, 16),
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
-                                                letterSpacing: 0.27,
-                                                color: PCBuilderAppTheme
-                                                    .darkerText,
+    if (hardwareitem!.Rating > 4) {
+      return AnimatedBuilder(
+        animation: animationController!,
+        builder: (BuildContext context, Widget? child) {
+          return FadeTransition(
+            opacity: animation!,
+            child: Transform(
+              transform: Matrix4.translationValues(
+                  100 * (1.0 - animation!.value), 0.0, 0.0),
+              child: InkWell(
+                splashColor: Colors.transparent,
+                // ---------- solved prob-------------------
+                // -------------------------------------------------
+                onTap: () => Navigator.of(context).pushNamed(
+                    HardwareInfoScreen.routName,
+                    arguments: hardwareitem!.id),
+                // ------------------------------------------------------
+                child: SizedBox(
+                  width: 280,
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        child: Row(
+                          children: <Widget>[
+                            const SizedBox(
+                              width: 38,
+                            ),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: HexColor('#F8FAFB'),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16.0)),
+                                ),
+                                child: Row(
+                                  children: <Widget>[
+                                    const SizedBox(
+                                      width: 48 + 24.0,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 16),
+                                              child: Text(
+                                                hardwareitem!.Type.length <= 11
+                                                    ? hardwareitem!.Type
+                                                    : hardwareitem!.Type
+                                                        .substring(0, 11),
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16,
+                                                  letterSpacing: 0.27,
+                                                  color: PCBuilderAppTheme
+                                                      .darkerText,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 18, bottom: 12),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text(
-                                                  '💲${hardwareitem!.price} ',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w200,
-                                                    fontSize: 12,
-                                                    letterSpacing: 0.23,
-                                                    color:
-                                                        PCBuilderAppTheme.grey,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 18, bottom: 12),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '💲${hardwareitem!.price} ',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w200,
+                                                      fontSize: 12,
+                                                      letterSpacing: 0.23,
+                                                      color: PCBuilderAppTheme
+                                                          .grey,
+                                                    ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Text(
-                                                        '${hardwareitem!.Rating.toString().substring(0, 4)}',
-                                                        textAlign:
-                                                            TextAlign.right,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w200,
-                                                          fontSize: 18,
-                                                          letterSpacing: 0.0,
+                                                  Container(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          '${hardwareitem!.Rating.toString().substring(0, 4)}',
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w200,
+                                                            fontSize: 18,
+                                                            letterSpacing: 0.0,
+                                                            color:
+                                                                PCBuilderAppTheme
+                                                                    .grey,
+                                                          ),
+                                                        ),
+                                                        Icon(
+                                                          Icons.star,
                                                           color:
                                                               PCBuilderAppTheme
-                                                                  .grey,
+                                                                  .nearlyBlue,
+                                                          size: 20,
                                                         ),
-                                                      ),
-                                                      Icon(
-                                                        Icons.star,
-                                                        color: PCBuilderAppTheme
-                                                            .nearlyBlue,
-                                                        size: 20,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 26, right: 26),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  '${hardwareitem!.prop1![0]}',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 10,
-                                                    letterSpacing: 0.27,
-                                                    color:
-                                                        PCBuilderAppTheme.grey,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 26, right: 26),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${hardwareitem!.prop1![0]}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 10,
+                                                      letterSpacing: 0.27,
+                                                      color: PCBuilderAppTheme
+                                                          .grey,
+                                                    ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  width: 30,
-                                                  height: 30,
-                                                  alignment: Alignment.topRight,
-                                                  decoration: BoxDecoration(
-                                                    color: PCBuilderAppTheme
-                                                        .nearlyBlue,
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0)),
-                                                  ),
-                                                  child: IconButton(
-                                                    onPressed: () {
-                                                      models.addItem(
-                                                          hardwareitem!.id,
-                                                          hardwareitem!.price,
-                                                          hardwareitem!.Type,
-                                                          hardwareitem!.Rating,
-                                                          hardwareitem!
-                                                              .Imageurl,
-                                                          hardwareitem!.color,
-                                                          hardwareitem!.swhw);
-                                                      Scaffold.of(context)
-                                                          .hideCurrentSnackBar();
+                                                  Container(
+                                                    width: 30,
+                                                    height: 30,
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    decoration: BoxDecoration(
+                                                      color: PCBuilderAppTheme
+                                                          .nearlyBlue,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  8.0)),
+                                                    ),
+                                                    child: IconButton(
+                                                      iconSize: 15,
+                                                      onPressed: () {
+                                                        models.addItem(
+                                                            hardwareitem!.id,
+                                                            hardwareitem!.price,
+                                                            hardwareitem!.Type,
+                                                            hardwareitem!
+                                                                .Rating,
+                                                            hardwareitem!
+                                                                .Imageurl,
+                                                            hardwareitem!.color,
+                                                            hardwareitem!.swhw,
+                                                            null,
+                                                            hardwareitem!.prop1,
+                                                            hardwareitem!.prop2,
+                                                            hardwareitem!
+                                                                .prop3);
+                                                        Scaffold.of(context)
+                                                            .hideCurrentSnackBar();
 
-                                                      Scaffold.of(context)
-                                                          // ignore: deprecated_member_use
-                                                          .showSnackBar(
-                                                              SnackBar(
-                                                        content: Text(
-                                                          "Added item to Model",
-                                                        ),
-                                                        action: SnackBarAction(
-                                                          label: ' UNDO',
-                                                          onPressed: () {
-                                                            models.removeItem(
-                                                                hardwareitem!
-                                                                    .id);
-                                                          },
-                                                        ),
-                                                        duration: Duration(
-                                                            seconds: 2),
-                                                      ));
-                                                    },
-                                                    //                           Center(
-                                                    //   child: Padding(
-                                                    //     padding: const EdgeInsets.all(4.0),
-                                                    //     child: Icon(
-                                                    //                             Icons.add,
-                                                    //                             color: PCBuilderAppTheme
-                                                    //                                 .nearlyWhite,
-                                                    //                             //  semanticLabel: ,
-                                                    //                           ),
-                                                    //                         ),
-                                                    //     ),
-                                                    //   ),
-                                                    // )
-                                                    icon: Center(
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                bottom: 100,
-                                                                right: 12),
-                                                        child: Icon(
-                                                          Icons.add,
-                                                          color:
-                                                              PCBuilderAppTheme
-                                                                  .nearlyWhite,
-                                                          //  semanticLabel: ,
-                                                        ),
+                                                        Scaffold.of(context)
+                                                            // ignore: deprecated_member_use
+                                                            .showSnackBar(
+                                                                SnackBar(
+                                                          content: Text(
+                                                            "Added item to Model",
+                                                          ),
+                                                          action:
+                                                              SnackBarAction(
+                                                            label: ' UNDO',
+                                                            onPressed: () {
+                                                              models.removeItem(
+                                                                  hardwareitem!
+                                                                      .id);
+                                                            },
+                                                          ),
+                                                          duration: Duration(
+                                                              seconds: 2),
+                                                        ));
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.add,
+                                                        color: PCBuilderAppTheme
+                                                            .nearlyWhite,
+                                                        //  semanticLabel: ,
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 24, bottom: 24, left: 16),
-                        child: Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16.0)),
-                              child: AspectRatio(
-                                  aspectRatio: 1.0,
-                                  child: Image.asset(hardwareitem!.Imageurl)),
                             )
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 24, bottom: 24, left: 16),
+                          child: Row(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(16.0)),
+                                child: AspectRatio(
+                                    aspectRatio: 1.0,
+                                    child: Image.asset(hardwareitem!.Imageurl)),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    } else {
+      return SizedBox(
+        height: 10,
+      );
+    }
   }
 }

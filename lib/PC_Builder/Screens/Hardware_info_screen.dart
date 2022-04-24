@@ -22,7 +22,7 @@ class _HardwareInfoScreen extends State<HardwareInfoScreen>
   @override
   void initState() {
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+        duration: const Duration(milliseconds: 1500), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: animationController!,
         curve: Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
@@ -32,15 +32,15 @@ class _HardwareInfoScreen extends State<HardwareInfoScreen>
 
   Future<void> setData() async {
     animationController?.forward();
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
     setState(() {
       opacity1 = 1.0;
     });
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
     setState(() {
       opacity2 = 1.0;
     });
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 700));
     setState(() {
       opacity3 = 1.0;
     });
@@ -162,7 +162,11 @@ class _HardwareInfoScreen extends State<HardwareInfoScreen>
                               padding: const EdgeInsets.all(8),
                               child: Row(
                                 children: <Widget>[
-                                  getTimeBoxUI(hardwareitem.prop1![0],
+                                  getTimeBoxUI(
+                                      hardwareitem.prop1![0].length >= 13
+                                          ? hardwareitem.prop1![0]
+                                              .substring(0, 4)
+                                          : hardwareitem.prop1![0],
                                       hardwareitem.prop1![1]),
                                   getTimeBoxUI(
                                       hardwareitem.prop3[0].length >= 13
@@ -174,7 +178,10 @@ class _HardwareInfoScreen extends State<HardwareInfoScreen>
                                               .substring(0, 5)
                                           : hardwareitem.prop3[1]),
                                   getTimeBoxUI(
-                                      hardwareitem.prop2[0],
+                                      hardwareitem.prop2[0].length >= 13
+                                          ? hardwareitem.prop2[0]
+                                              .substring(0, 4)
+                                          : hardwareitem.prop2[0],
                                       hardwareitem.prop2[1].length >= 10
                                           ? hardwareitem.prop2[1]
                                               .substring(0, 8)
@@ -269,7 +276,11 @@ class _HardwareInfoScreen extends State<HardwareInfoScreen>
                                                 hardwareitem.Rating,
                                                 hardwareitem.Imageurl,
                                                 hardwareitem.color,
-                                                SWHW.hardware);
+                                                SWHW.hardware,
+                                                null,
+                                                hardwareitem.prop1,
+                                                hardwareitem.prop2,
+                                                hardwareitem.prop3);
                                           },
                                           child: Text(
                                             'Add to the Model',

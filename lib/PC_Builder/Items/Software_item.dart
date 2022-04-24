@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Screens/Software_info_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/software.dart';
-import '../providers/software_provider.dart';
+
 import '../providers/Models.dart';
 
 class software_item extends StatelessWidget {
@@ -15,17 +15,14 @@ class software_item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final softwareitem = Provider.of<Software>(context);
-    // final softwaredata = Provider.of<software>(context, listen: false);
 
     final models = Provider.of<Models>(context);
-
-    // softwaredata.catchApplications();
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-          child: Image.asset(
+          child: Image.network(
             softwareitem.imagePath,
             fit: BoxFit.cover,
           ),
@@ -55,7 +52,11 @@ class software_item extends StatelessWidget {
                     softwareitem.rating,
                     softwareitem.imagePath,
                     softwareitem.color,
-                    softwareitem.swhw);
+                    softwareitem.swhw,
+                    softwareitem.discription,
+                    null,
+                    null,
+                    null);
                 Scaffold.of(context).hideCurrentSnackBar();
 
                 Scaffold.of(context).showSnackBar(SnackBar(

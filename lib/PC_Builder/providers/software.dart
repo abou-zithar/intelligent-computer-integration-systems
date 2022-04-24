@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 class Software with ChangeNotifier {
+      // String productId,
+      // String title,
+      // String imagepath,
+      // String overhead,
+      // double rating,
+      // List<String> prop1,
+      // List<String> version
   Software({
     required this.id,
     this.title = '',
@@ -26,7 +33,7 @@ class Software with ChangeNotifier {
 
   final String id;
   final String title;
-  final List<String> version;
+  final String version;
   final String discription;
   final double rating;
   final String price;

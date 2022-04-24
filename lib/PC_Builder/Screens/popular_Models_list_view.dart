@@ -1,5 +1,8 @@
+import 'package:best_flutter_ui_templates/PC_Builder/providers/pcModel.dart';
+import 'package:best_flutter_ui_templates/PC_Builder/providers/user_model.dart';
+import 'package:provider/provider.dart';
+
 import '../PC_Builder_app_theme.dart';
-import '../models/Models_static.dart';
 import '../../main.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +31,7 @@ class _PopularModelListViewState extends State<PopularModelListView>
 
   @override
   Widget build(BuildContext context) {
+    final finalmodel = Provider.of<PcModel>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: FutureBuilder<bool>(
@@ -41,9 +45,9 @@ class _PopularModelListViewState extends State<PopularModelListView>
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: List<Widget>.generate(
-                Models.popularmodelList.length,
+                finalmodel.items.length,
                 (int index) {
-                  final int count = Models.popularmodelList.length;
+                  final int count = finalmodel.items.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -55,7 +59,7 @@ class _PopularModelListViewState extends State<PopularModelListView>
                   animationController?.forward();
                   return CategoryView(
                     callback: widget.callBack,
-                    model: Models.popularmodelList[index],
+                    model: finalmodel.items[index],
                     animation: animation,
                     animationController: animationController,
                   );
@@ -85,12 +89,13 @@ class CategoryView extends StatelessWidget {
       : super(key: key);
 
   final VoidCallback? callback;
-  final Models? model;
+  final PcModel? model;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel>(context);
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -129,7 +134,7 @@ class CategoryView extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 16, left: 16, right: 16),
                                             child: Text(
-                                              model!.title,
+                                              'model ${model!.Title}',
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -154,7 +159,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${model!.price} \$',
+                                                  '${model!.Price < int.parse(user.budget) ? model!.Price.toString().substring(0, 4) : 'this model is over your budget'}',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -168,7 +173,7 @@ class CategoryView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        '${model!.rating}',
+                                                        '${model!.Rate.toString().substring(0, 4)}',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -224,7 +229,8 @@ class CategoryView extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(16.0)),
                             child: AspectRatio(
                                 aspectRatio: 1.28,
-                                child: Image.asset(model!.imagePath)),
+                                child: Image.asset(
+                                    'assets/new_images/computer.png')),
                           ),
                         ),
                       ),

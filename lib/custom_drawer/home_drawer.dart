@@ -70,11 +70,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.help),
       ),
       DrawerList(
-        Name: DrawerName.Invite,
-        labelName: 'Invite Friend',
-        icon: Icon(Icons.group),
-      ),
-      DrawerList(
         Name: DrawerName.about_us,
         labelName: 'About Us',
         icon: Icon(Icons.info),
@@ -223,7 +218,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 
   void onTapped() {
-    print('Doing Something...'); // Print to console.
+    Navigator.of(context).pushNamed('./login');
   }
 
 //the widget of the drawer at the home page
@@ -245,17 +240,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Container(
                     width: 5.0,
                     height: 46.0,
-                    // decoration: BoxDecoration(
-                    //   color: widget.screenIndex == listData.index
-                    //       ? Colors.blue
-                    //       : Colors.transparent,
-                    //   borderRadius: new BorderRadius.only(
-                    //     topLeft: Radius.circular(0),
-                    //     topRight: Radius.circular(16),
-                    //     bottomLeft: Radius.circular(0),
-                    //     bottomRight: Radius.circular(16),
-                    //   ),
-                    // ),
                   ),
                   const Padding(
                     padding: EdgeInsets.all(4.0),
@@ -339,7 +323,7 @@ enum DrawerName {
   FeedBack,
   Help,
   Share,
-  Invite,
+
   Model,
   Rating,
   about_us,

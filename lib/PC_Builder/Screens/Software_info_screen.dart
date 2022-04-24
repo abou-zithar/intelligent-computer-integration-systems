@@ -63,7 +63,7 @@ class _SoftwareInfoScreen extends State<SoftwareInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset('${softwareitem.imagePath}'),
+                  child: Image.network('${softwareitem.imagePath}'),
                 ),
               ],
             ),
@@ -133,7 +133,7 @@ class _SoftwareInfoScreen extends State<SoftwareInfoScreen>
                                   child: Row(
                                     children: <Widget>[
                                       Text(
-                                        '${softwareitem.rating}',
+                                        '${softwareitem.rating.toString().substring(0, 4)}',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w200,
@@ -162,9 +162,10 @@ class _SoftwareInfoScreen extends State<SoftwareInfoScreen>
                                 children: <Widget>[
                                   getTimeBoxUI(
                                       '${softwareitem.version}', 'version'),
+                                  getTimeBoxUI('${softwareitem.discription}',
+                                      'overhead'),
                                   getTimeBoxUI(
-                                      '${softwareitem.prop1}', 'overhead'),
-                                  getTimeBoxUI('${softwareitem.prop2}', 'type'),
+                                      '${softwareitem.prop1?[0]}', 'type'),
                                 ],
                               ),
                             ),
@@ -177,7 +178,7 @@ class _SoftwareInfoScreen extends State<SoftwareInfoScreen>
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
                                 child: Text(
-                                  '${softwareitem.discription}',
+                                  '${softwareitem.price}',
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -255,7 +256,8 @@ class _SoftwareInfoScreen extends State<SoftwareInfoScreen>
                                                 softwareitem.rating,
                                                 softwareitem.imagePath,
                                                 softwareitem.color,
-                                                SWHW.software);
+                                                SWHW.software,
+                                                softwareitem.discription,null,null,null);
                                           },
                                           child: Text(
                                             'Add ${softwareitem.title}',
